@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
-import com.example.studycalendarapp.ui.StudyBottomNavigationBar
-import com.example.studycalendarapp.ui.StudyItem
+import com.example.studycalendarapp.view.components.StudyBottomNavigationBar
+import com.example.studycalendarapp.view.components.StudyItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

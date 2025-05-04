@@ -1,4 +1,4 @@
-package com.example.studycalendarapp.ui
+package com.example.studycalendarapp.view.components
 
 import androidx.compose.ui.graphics.Color
 

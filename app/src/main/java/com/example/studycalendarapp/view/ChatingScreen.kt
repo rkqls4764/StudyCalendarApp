@@ -16,7 +16,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
-import com.example.studycalendarapp.ui.StudyBottomNavigationBar
+import com.example.studycalendarapp.view.components.StudyBottomNavigationBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

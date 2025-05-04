@@ -1,6 +1,5 @@
 package com.example.studycalendarapp.view
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
-import com.example.studycalendarapp.ui.DetailStudy
+import com.example.studycalendarapp.view.components.DetailStudy
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

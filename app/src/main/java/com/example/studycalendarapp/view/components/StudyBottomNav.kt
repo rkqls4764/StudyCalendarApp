@@ -1,4 +1,4 @@
-package com.example.studycalendarapp.ui
+package com.example.studycalendarapp.view.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
