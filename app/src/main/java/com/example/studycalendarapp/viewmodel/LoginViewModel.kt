@@ -38,7 +38,7 @@ class LoginViewModel : ViewModel() {
             val account = task.getResult(ApiException::class.java)
             firebaseAuthWithGoogle(account, onError)
         } catch (e: Exception) {
-            Log.e(TAG, "Google 로그인 실패", e)
+            Log.e(TAG, "Google 로그인 실패: ", e)
             onError("Google 로그인 실패: ${e.message}")
         }
     }
@@ -51,7 +51,7 @@ class LoginViewModel : ViewModel() {
                     Log.d(TAG, "Firebase 로그인 성공: ${firebaseAuth.currentUser?.email}")
                     _isLoginSuccess.value = true
                 } else {
-                    Log.e(TAG, "Firebase 로그인 실패", task.exception)
+                    Log.e(TAG, "Firebase 로그인 실패: ", task.exception)
                     onError("Firebase 로그인 실패: ${task.exception?.message}")
                 }
             }
