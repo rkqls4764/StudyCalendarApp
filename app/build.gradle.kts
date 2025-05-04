@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+
+    id("com.google.gms.google-services")    // Firebase 관련 설정 처리해주는 Gradle 플러그인
 }
 
 android {
@@ -69,5 +71,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation("androidx.compose.material:material:1.4.3")
-
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))    // Firebase BoM(버전 일괄 관리) 사용
+    implementation("com.google.firebase:firebase-auth")         // Firebase Authentication(구글 소셜 로그인) 사용
+    implementation("com.google.firebase:firebase-firestore")    // Firestore 사용
 }
