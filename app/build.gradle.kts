@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,7 +73,7 @@ dependencies {
 
     implementation("androidx.compose.material:material:1.4.3")
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))    // Firebase BoM(버전 일괄 관리) 사용
-    implementation("com.google.firebase:firebase-auth")         // Firebase Authentication(구글 소셜 로그인) 사용
+    implementation("com.google.firebase:firebase-auth-ktx")     // Firebase Authentication(구글 소셜 로그인) 사용
     implementation("com.google.firebase:firebase-firestore")    // Firestore 사용
     implementation("com.google.android.gms:play-services-auth:21.0.0")  // 구글 소셜 로그인 사용
 }
