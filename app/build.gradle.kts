@@ -74,4 +74,5 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))    // Firebase BoM(버전 일괄 관리) 사용
     implementation("com.google.firebase:firebase-auth")         // Firebase Authentication(구글 소셜 로그인) 사용
     implementation("com.google.firebase:firebase-firestore")    // Firestore 사용
+    implementation("com.google.android.gms:play-services-auth:21.0.0")  // 구글 소셜 로그인 사용
 }
