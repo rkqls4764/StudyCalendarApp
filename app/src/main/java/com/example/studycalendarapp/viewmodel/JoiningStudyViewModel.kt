@@ -21,7 +21,7 @@ class JoiningStudyViewModel : ViewModel() {
 
     /* 가입 중인 스터디 목록 조회 함수 */
     fun fetchStudies() {
-        DB.collection("users").document(uid)
+        DB.collection("user").document(uid)
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
@@ -54,19 +54,5 @@ class JoiningStudyViewModel : ViewModel() {
             .addOnFailureListener { e ->
                 Log.e(TAG, "사용자 정보 조회 실패: ", e)
             }
-//        viewModelScope.launch {
-//            DB.collection("study")
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    val studies = result.map {
-//                        it.toObject(Study::class.java)
-//                    }
-//                    _studyList.value = studies
-//                    Log.d(TAG, "스터디 목록 불러오기 성공: ${_studyList.value}")
-//                }
-//                .addOnFailureListener { e ->
-//                    Log.e(TAG, "스터디 목록 불러오기 실패: ", e)
-//                }
-//        }
     }
 }

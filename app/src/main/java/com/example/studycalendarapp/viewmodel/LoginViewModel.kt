@@ -56,7 +56,7 @@ class LoginViewModel : ViewModel() {
                     // Firestore에 사용자 정보 저장
                     user?.let {
                         val uid = it.uid
-                        val userRef = DB.collection("users").document(uid)
+                        val userRef = DB.collection("user").document(uid)
 
                         // Firestore에 사용자 문서 존재 여부 확인
                         userRef.get()
