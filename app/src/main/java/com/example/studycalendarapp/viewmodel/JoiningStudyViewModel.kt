@@ -16,6 +16,7 @@ class JoiningStudyViewModel : ViewModel() {
     private val _studyList = MutableStateFlow<List<Study>>(emptyList()) // 스터디 목록
     val studyList: StateFlow<List<Study>> = _studyList
 
+    /* 스터디 목록 조회 함수 */
     fun fetchStudies() {
         viewModelScope.launch {
             DB.collection("study")
