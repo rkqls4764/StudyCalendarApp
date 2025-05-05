@@ -1,5 +1,6 @@
 package com.example.studycalendarapp.view
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,32 +17,37 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
+import com.example.studycalendarapp.view.components.InputField
+import com.example.studycalendarapp.view.components.MainBlue
+import com.example.studycalendarapp.view.components.SubBlue
+import com.example.studycalendarapp.viewmodel.AddStudyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddStudyScreen(navController: NavHostController) {
-    val name = "이름"
-    val date = "날짜"
-    val time = "시간"
-    val description = "설명"
-    val tag = "태그"
-    val method = "방식"
+    val context = LocalContext.current
+    val viewModel: AddStudyViewModel = viewModel()
+    val study by viewModel.study.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "스터디 생성하기", fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(id = R.color.main_blue),
+                    containerColor = MainBlue,
                     titleContentColor = Color.White
                 ),
                 // 뒤로 가기 버튼
@@ -49,79 +55,62 @@ fun AddStudyScreen(navController: NavHostController) {
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues).fillMaxWidth().padding(top = 30.dp),
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxWidth()
+                .padding(top = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(    // 이름 입력 필드
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(text = "이름", fontWeight = FontWeight.Bold)
-                TextField(value = name, onValueChange = { /* viewModel 값 변경 */ })
+            InputField("이름", study.name) { new ->
+                viewModel.updateStudy { it.copy(name = new) }
             }
 
             Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
-            Row(    // 날짜 입력 필드
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(text = "날짜", fontWeight = FontWeight.Bold)
-                TextField(value = date, onValueChange = { /* viewModel 값 변경 */ })
+            InputField("날짜", study.date) { new ->
+                viewModel.updateStudy { it.copy(date = new) }
             }
 
             Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
-            Row(    // 시간 입력 필드
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(text = "시간", fontWeight = FontWeight.Bold)
-                TextField(value = time, onValueChange = { /* viewModel 값 변경 */ })
+            InputField("시간", study.time) { new ->
+                viewModel.updateStudy { it.copy(time = new) }
             }
 
             Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
-            Row(    // 설명 입력 필드
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(text = "설명", fontWeight = FontWeight.Bold)
-                TextField(value = description, onValueChange = { /* viewModel 값 변경 */ })
+            InputField("설명", study.description) { new ->
+                viewModel.updateStudy { it.copy(description = new) }
             }
 
             Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
-            Row(    // 태그 입력 필드
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(text = "태그", fontWeight = FontWeight.Bold)
-                TextField(value = tag, onValueChange = { /* viewModel 값 변경 */ })
+            InputField("태그", study.tag) { new ->
+                viewModel.updateStudy { it.copy(tag = new) }
             }
 
             Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
-            Row(    // 방식 입력 필드
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(text = "방식", fontWeight = FontWeight.Bold)
-                TextField(value = method, onValueChange = { /* viewModel 값 변경 */ })
+            InputField("방식", study.method) { new ->
+                viewModel.updateStudy { it.copy(method = new) }
             }
 
             Spacer(modifier = Modifier.padding(bottom = 100.dp))
 
             Button( // 생성 버튼
-                onClick = { /*TODO*/ },
+                 onClick = {
+                     viewModel.saveStudy(
+                         onSuccess = {
+                             Toast.makeText(context, "스터디 생성 성공!", Toast.LENGTH_SHORT).show()
+                                     /* 뒤로 가기 */
+                         },
+                         onFailure = {
+                             Toast.makeText(context, "스터디 생성 실패", Toast.LENGTH_SHORT).show()
+                         }
+                     )
+                },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(id = R.color.sub_blue)
+                    containerColor = SubBlue
                 )
             ) {
                 Text(text = "생성하기", fontWeight = FontWeight.Bold, color = Color.White)
