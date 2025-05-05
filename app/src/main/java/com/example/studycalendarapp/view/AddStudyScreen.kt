@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -58,7 +63,15 @@ fun AddStudyScreen(navController: NavHostController) {
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MainBlue
                 ),
-                // 뒤로 가기 버튼
+                navigationIcon = {  // 뒤로 가기 버튼
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowLeft,
+                            contentDescription = "뒤로 가기",
+                            tint = Color.White
+                        )
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -110,7 +123,7 @@ fun AddStudyScreen(navController: NavHostController) {
                      viewModel.saveStudy(
                          onSuccess = {
                              Toast.makeText(context, "스터디 생성 성공!", Toast.LENGTH_SHORT).show()
-                                     /* 뒤로 가기 */
+                             navController.popBackStack()   // 뒤로 가기
                          },
                          onFailure = {
                              Toast.makeText(context, "스터디 생성 실패", Toast.LENGTH_SHORT).show()
