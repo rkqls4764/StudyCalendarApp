@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
+import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.viewmodel.LoginViewModel
 
 /* 로그인 화면 */
@@ -68,7 +69,7 @@ fun LoginScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.main_blue)),
+            .background(MainBlue),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -100,7 +101,6 @@ fun LoginScreen(navController: NavHostController) {
                 .clickable {
                     val signInIntent = viewModel.getGoogleSignInIntent(activity)
                     launcher.launch(signInIntent)
-//                    navController.navigate("joiningStudy")
                 },
             contentAlignment = Alignment.Center
         ) {

@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -25,10 +26,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
+import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.StudyBottomNavigationBar
 import com.example.studycalendarapp.view.components.StudyItem
+import com.example.studycalendarapp.view.components.SubBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,11 +42,17 @@ fun RecruitScreen(navController: NavHostController) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "모집 중인 스터디", fontWeight = FontWeight.Bold) },
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "모집 중인 스터디",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(id = R.color.main_blue),
-                    titleContentColor = Color.White
+                    containerColor = MainBlue
                 )
             )
         },
@@ -51,7 +61,7 @@ fun RecruitScreen(navController: NavHostController) {
                 onClick = {
                     navController.navigate("addStudy")
                 },
-                containerColor = colorResource(id = R.color.sub_blue)
+                containerColor = SubBlue
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "Add", tint = Color.White)
             }
@@ -84,12 +94,12 @@ fun RecruitScreen(navController: NavHostController) {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                items(studyList) { study ->
-                    StudyItem(study, "참여하기", onButtonClick = {
-                        // 스터디 참여 화면으로 이동
-                        navController.navigate("joinStudy")
-                    })
-                }
+//                items(studyList) { study ->
+//                    StudyItem(study, onButtonClick = {
+//                        // 스터디 참여 화면으로 이동
+//                        navController.navigate("joinStudy")
+//                    })
+//                }
             }
         }
     }

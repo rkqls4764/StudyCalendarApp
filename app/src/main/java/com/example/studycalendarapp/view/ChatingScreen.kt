@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
+import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.StudyBottomNavigationBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,11 +26,17 @@ import com.example.studycalendarapp.view.components.StudyBottomNavigationBar
 fun ChatingScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "AI 챗봇과 대화하기", fontWeight = FontWeight.Bold) },
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "AI 챗봇과 대화하기",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(id = R.color.main_blue),
-                    titleContentColor = Color.White
+                    containerColor = MainBlue
                 )
             )
         },

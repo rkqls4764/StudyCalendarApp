@@ -45,7 +45,7 @@ fun StudyBottomNavigationBar(navController: NavController) {
     )
 
     BottomNavigation(
-        backgroundColor = colorResource(id = R.color.main_blue)
+        backgroundColor = MainBlue
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
