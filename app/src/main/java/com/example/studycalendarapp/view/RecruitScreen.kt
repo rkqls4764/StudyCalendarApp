@@ -84,7 +84,8 @@ fun RecruitScreen(navController: NavHostController) {
                 onClick = {
                     navController.navigate("addStudy")
                 },
-                containerColor = SubBlue
+                containerColor = SubBlue,
+                shape = RoundedCornerShape(50)
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "Add", tint = Color.White)
             }
