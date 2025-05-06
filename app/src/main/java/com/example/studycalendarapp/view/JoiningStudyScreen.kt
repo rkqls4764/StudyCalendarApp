@@ -69,7 +69,7 @@ fun JoiningStudyScreen(navController: NavHostController) {
             ) {
                 items(studyList) { study ->
                     StudyItem(study, "일정 관리", onButtonClick = {
-                        navController.navigate("calendar")  // 일정 관리 화면으로 이동
+                        navController.navigate("calendar/${study.id}")  // 일정 관리 화면으로 이동
                     })
                 }
             }
