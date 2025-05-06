@@ -6,7 +6,7 @@ data class Study(
     val method: String = "",                    // 방식
     val date: String = "",                      // 날짜
     val time: String = "",                      // 시간
-    val tag: String = "",                       // 태그
+    val tag: List<String> = emptyList(),        // 태그
     val hostId: String = "",                    // 방장 아이디
     val memberList: List<String> = emptyList()  // 가입한 사용자 아이디 목록
 )
