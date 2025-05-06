@@ -1,5 +1,6 @@
 package com.example.studycalendarapp.view
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,6 +46,7 @@ import com.example.studycalendarapp.viewmodel.JoinStudyViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JoinStudyScreen(navController: NavHostController, studyId: String) {
+    val context = LocalContext.current
     val viewModel: JoinStudyViewModel = viewModel()
     val study by viewModel.study.collectAsState()
 
@@ -88,7 +91,18 @@ fun JoinStudyScreen(navController: NavHostController, studyId: String) {
             Spacer(modifier = Modifier.padding(bottom = 245.dp))
 
             Button( // 참여 버튼
-                onClick = { /*TODO*/ },
+                onClick = {
+                    viewModel.joinStudy(
+                        studyId = studyId,
+                        onSuccess = {
+                            Toast.makeText(context, "스터디 가입 성공!", Toast.LENGTH_SHORT).show()
+                            navController.popBackStack()   // 뒤로 가기
+                        },
+                        onFailure = {
+                            Toast.makeText(context, "스터디 가입 실패", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = SubBlue
                 ),
