@@ -50,8 +50,9 @@ class RecruitViewModel : ViewModel() {
         DB.collection("study")
             .get()
             .addOnSuccessListener { result ->
-                val studies = result.map {
-                    it.toObject(Study::class.java)
+                val studies = result.map { document ->
+                    val study = document.toObject(Study::class.java)
+                    study.copy(id = document.id) // 문서 ID 추가
                 }
                 _studyList.value = studies
                 _filteredStudyList.value = filterStudyList(_searchText.value)
