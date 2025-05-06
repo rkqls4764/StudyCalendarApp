@@ -6,7 +6,7 @@ enum class Screen(val route: String) {
     Calendar("calendar/{studyId}"),
     Chating("chating"),
     DetailSchedule("detailSchedule"),
-    DetailStudy("detailStudy"),
+    DetailStudy("detailStudy/{studyId}"),
     JoiningStudy("joiningStudy"),
     JoinStudy("joinStudy/{studyId}"),
     Login("login"),

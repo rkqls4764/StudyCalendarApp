@@ -19,12 +19,12 @@ import androidx.navigation.NavController
 import com.example.studycalendarapp.model.Schedule
 
 @Composable
-fun ScheduleItem(schedule: Schedule, navController: NavController) {
+fun ScheduleItem(schedule: Schedule, onButtonClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 12.dp)
-            .clickable { navController.navigate("detailSchedule") }
+            .clickable { onButtonClick }
     ) {
         Text(
             text = schedule.date + " ",

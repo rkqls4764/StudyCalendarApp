@@ -93,7 +93,15 @@ fun CalendarScreen(navController: NavHostController, studyId: String) {
             }
         },
         bottomBar = {
-            CalendarBottomNavigationBar(navController)
+            CalendarBottomNavigationBar(
+                navController,
+                onItemClick = { id ->
+                    when (id) {
+                        "calendar" -> navController.navigate("calendar/${studyId}")
+                        "chating" -> navController.navigate("chating")
+                        "detailStudy" -> navController.navigate("detailStudy/${studyId}")
+                    }
+                })
         }
     ) { paddingValues ->
         Column(
@@ -112,7 +120,9 @@ fun CalendarScreen(navController: NavHostController, studyId: String) {
                     .fillMaxSize()
             ) {
                 items(scheduleList) { schedule ->
-                    ScheduleItem(schedule, navController)
+                    ScheduleItem(schedule, onButtonClick = {
+                        navController.navigate("detailStudy/studyId") // 일정 조회 화면으로 이동
+                    })
                 }
             }
         }

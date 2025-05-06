@@ -15,29 +15,29 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.studycalendarapp.R
 
 sealed class CalendarBottomNavItems(
-    val route: String,
+    val id: String,
     val title: String,
     val icon: Int
 ) {
     object Calendar: CalendarBottomNavItems(
-        route = "calendar",
+        id = "calendar",
         title = "캘린더",
         icon = R.drawable.ic_calendar
     )
     object Chating: CalendarBottomNavItems(
-        route = "chating",
+        id = "chating",
         title = "채팅",
         icon = R.drawable.ic_chatbot
     )
     object DetailStudy: CalendarBottomNavItems(
-        route = "detailStudy",
+        id = "detailStudy",
         title = "스터디 정보",
         icon = R.drawable.ic_detail_study
     )
 }
 
 @Composable
-fun CalendarBottomNavigationBar(navController: NavController) {
+fun CalendarBottomNavigationBar(navController: NavController, onItemClick: (id: String) -> Unit) {
     val items = listOf(
         CalendarBottomNavItems.Calendar,
         CalendarBottomNavItems.Chating,
@@ -52,15 +52,9 @@ fun CalendarBottomNavigationBar(navController: NavController) {
 
         items.forEach { item ->
             BottomNavigationItem(
-                selected = currentRoute == item.route,
+                selected = currentRoute == item.id,
                 onClick = {
-                    navController.navigate(item.route) {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
+                          onItemClick(item.id)
                 },
                 icon = {
                     Icon(
