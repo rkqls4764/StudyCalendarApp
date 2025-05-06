@@ -1,6 +1,7 @@
 package com.example.studycalendarapp.model
 
 data class Study(
+    val id: String = "",
     val name: String = "",                      // 이름
     val description: String = "",               // 설명
     val method: String = "",                    // 방식
