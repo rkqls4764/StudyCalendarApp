@@ -128,7 +128,7 @@ fun RecruitScreen(navController: NavHostController) {
                     .padding(16.dp)
             ) {
                 items(filteredList) { study ->
-                    StudyItem(study, onButtonClick = {
+                    StudyItem(study, "참여하기", onButtonClick = {
                         navController.navigate("joinStudy")  // 스터디 참여 화면으로 이동
                     })
                 }

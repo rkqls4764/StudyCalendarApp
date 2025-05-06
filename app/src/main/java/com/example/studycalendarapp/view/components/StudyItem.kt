@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.studycalendarapp.model.Study
 
 @Composable
-fun StudyItem(study: Study, onButtonClick: () -> Unit) {
+fun StudyItem(study: Study, buttonText: String, onButtonClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +60,7 @@ fun StudyItem(study: Study, onButtonClick: () -> Unit) {
             contentPadding = PaddingValues(0.dp)
         ) {
             Text(
-                text = "일정 관리",
+                text = buttonText,
                 fontSize = 14.sp,
                 color = MainText
             )
