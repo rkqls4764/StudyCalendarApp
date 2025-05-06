@@ -35,7 +35,7 @@ import com.example.studycalendarapp.viewmodel.LoginViewModel
 @Composable
 fun JoiningStudyScreen(navController: NavHostController) {
     val viewModel: JoiningStudyViewModel = viewModel()
-    val studyList by viewModel.studyList.collectAsState()   // 스터디 목록
+    val studyList by viewModel.studyList.collectAsState()   // 가입 중인 스터디 목록
 
     LaunchedEffect(Unit) {
         viewModel.fetchJoiningStudyList()
