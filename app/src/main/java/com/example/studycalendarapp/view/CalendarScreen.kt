@@ -8,11 +8,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -67,7 +69,16 @@ fun CalendarScreen(navController: NavHostController, studyId: String) {
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MainBlue
-                )
+                ),
+                navigationIcon = {  // 뒤로 가기 버튼
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        androidx.compose.material.Icon(
+                            imageVector = Icons.Default.KeyboardArrowLeft,
+                            contentDescription = "뒤로 가기",
+                            tint = Color.White
+                        )
+                    }
+                }
             )
         },
         floatingActionButton = {
