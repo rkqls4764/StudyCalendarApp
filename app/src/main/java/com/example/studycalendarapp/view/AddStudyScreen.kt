@@ -93,33 +93,23 @@ fun AddStudyScreen(navController: NavHostController) {
                 viewModel.updateStudy { it.copy(name = new) }
             }
 
-            Spacer(modifier = Modifier.padding(bottom = 20.dp))
-
             InputField("날짜", study.date) { new ->
                 viewModel.updateStudy { it.copy(date = new) }
             }
-
-            Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
             InputField("시간", study.time) { new ->
                 viewModel.updateStudy { it.copy(time = new) }
             }
 
-            Spacer(modifier = Modifier.padding(bottom = 20.dp))
-
             InputField("설명", study.description) { new ->
                 viewModel.updateStudy { it.copy(description = new) }
             }
-
-            Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
             InputField("태그", tagInput) { new ->
                 tagInput = new
                 val tagList = new.trim().split("\\s+".toRegex())
                 viewModel.updateStudy { it.copy(tag = tagList) }
             }
-
-            Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
             InputField("방식", study.method) { new ->
                 viewModel.updateStudy { it.copy(method = new) }
