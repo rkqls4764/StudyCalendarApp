@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.map
 class RecruitViewModel : ViewModel() {
     private val TAG = "RecruitViewModel"
     private val DB = FirebaseFirestore.getInstance()
+    private val uid = FirebaseAuth.getInstance().currentUser!!.uid
 
     private val _studyList = MutableStateFlow<List<Study>>(emptyList()) // 스터디 목록
     private val _filteredStudyList = MutableStateFlow<List<Study>>(emptyList()) // 필터링된 스터디 목록
@@ -28,10 +29,16 @@ class RecruitViewModel : ViewModel() {
 
     /* 검색어 기준으로 필터링된 스터디 목록 조회 함수 */
     private fun filterStudyList(query: String): List<Study> {
+        // 현재 사용자가 가입하지 않은 스터디 목록만 필터링
+        val visibleStudyList = _studyList.value.filter { study ->
+            uid !in study.memberList && study.hostId != uid
+        }
+
+        // 스터디 이름 및 태그에 검색어가 포함된 스터디 목록만 필터링
         return if (query.isBlank()) {
-            _studyList.value
+            visibleStudyList
         } else {
-            _studyList.value.filter { study ->
+            visibleStudyList.filter { study ->
                 study.name.contains(query, ignoreCase = true) ||
                 study.tag.any { it.contains(query, ignoreCase = true) }
             }
