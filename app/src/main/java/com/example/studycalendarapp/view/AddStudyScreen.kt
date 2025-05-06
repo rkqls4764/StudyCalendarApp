@@ -25,6 +25,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,7 +50,8 @@ import com.example.studycalendarapp.viewmodel.AddStudyViewModel
 fun AddStudyScreen(navController: NavHostController) {
     val context = LocalContext.current
     val viewModel: AddStudyViewModel = viewModel()
-    val study by viewModel.study.collectAsState()
+    val study by viewModel.study.collectAsState() // 스터디 정보
+    var tagInput by remember { mutableStateOf("") } // 태그 입력 값
 
     Scaffold(
         topBar = {
@@ -106,8 +110,10 @@ fun AddStudyScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
-            InputField("태그", study.tag) { new ->
-                viewModel.updateStudy { it.copy(tag = new) }
+            InputField("태그", tagInput) { new ->
+                tagInput = new
+                val tagList = new.trim().split("\\s+".toRegex())
+                viewModel.updateStudy { it.copy(tag = tagList) }
             }
 
             Spacer(modifier = Modifier.padding(bottom = 20.dp))
