@@ -21,6 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,16 +31,26 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
+import com.example.studycalendarapp.model.Study
 import com.example.studycalendarapp.view.components.DetailStudy
 import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.SubBlue
+import com.example.studycalendarapp.viewmodel.JoinStudyViewModel
 
 /* 스터디 참여 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun JoinStudyScreen(navController: NavHostController) {
+fun JoinStudyScreen(navController: NavHostController, studyId: String) {
+    val viewModel: JoinStudyViewModel = viewModel()
+    val study by viewModel.study.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchStudyById(studyId)
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -70,7 +83,7 @@ fun JoinStudyScreen(navController: NavHostController) {
         ) {
             Spacer(modifier = Modifier.padding(bottom = 30.dp))
 
-//            DetailStudy()
+            study?.let { DetailStudy(it) }
 
             Spacer(modifier = Modifier.padding(bottom = 245.dp))
 

@@ -14,55 +14,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.studycalendarapp.model.Study
 
 @Composable
-fun DetailStudy() {
-    val name = "Data Science 부트캠프"
-    val description = "데이터 과학과 머신 러닝에 관심이 있는 사람들을 위한 스터디입니다. 매주 4번씩 정기적으로 모임을 가질 예정입니다."
-    val date = "매주 월, 수, 금, 일"
-    val time = "20:00 ~ 21:00"
-    val method = "온라인 회의"
-    val tag = "데이터 과학, 머신 러닝"
+fun DetailStudy(study: Study) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = study.name, fontWeight = FontWeight.Bold, fontSize = 20.sp) // 이름 출력
+    }
+
+    Spacer(modifier = Modifier.padding(bottom = 30.dp))
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = name, fontWeight = FontWeight.Bold, fontSize = 28.sp) // 이름 출력
+        Text(text = study.description, fontSize = 14.sp)    // 설명 출력
+        Spacer(modifier = Modifier.padding(bottom = 55.dp))
+
+        Divider(color = ButtonBackDeep, thickness = 1.dp)
         Spacer(modifier = Modifier.padding(bottom = 30.dp))
 
-        Text(text = description, fontSize = 14.sp)    // 설명 출력
-        Spacer(modifier = Modifier.padding(bottom = 20.dp))
+        InfoRow(label = "회의", value = "${study.date} ${study.time}") // 회의 날짜, 시간 출력
+        Spacer(modifier = Modifier.padding(bottom = 25.dp))
 
-        Divider(color = Color.Gray, thickness = 1.dp)
-        Spacer(modifier = Modifier.padding(bottom = 30.dp))
+        InfoRow(label = "방식", value = study.method) // 방식 출력
+        Spacer(modifier = Modifier.padding(bottom = 25.dp))
 
-        Row(    // 회의 날짜, 시간 출력
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "회의   ", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-            Text(text = "${date} ${time}", fontSize = 14.sp)
-        }
-        Spacer(modifier = Modifier.padding(bottom = 20.dp))
-
-        Row(    // 방식 출력
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "방식   ", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-            Text(text = method, fontSize = 14.sp)
-        }
-        Spacer(modifier = Modifier.padding(bottom = 20.dp))
-
-        Row(    // 태그 출력
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "태그   ", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-            Text(text = tag, fontSize = 14.sp)
-        }
+        InfoRow(label = "태그", value = study.tag.joinToString(", ")) // 태그 출력
     }
 }
