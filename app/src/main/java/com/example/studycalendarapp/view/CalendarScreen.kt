@@ -18,6 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,27 +28,38 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
+import com.example.studycalendarapp.view.components.ButtonBack
+import com.example.studycalendarapp.view.components.ButtonBackDeep
 import com.example.studycalendarapp.view.components.Calendar
 import com.example.studycalendarapp.view.components.CalendarBottomNavigationBar
 import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.ScheduleItem
 import com.example.studycalendarapp.view.components.SubBlue
+import com.example.studycalendarapp.viewmodel.CalendarViewModel
+import com.example.studycalendarapp.viewmodel.JoinStudyViewModel
 
 /* 일정 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarScreen(navController: NavHostController) {
-    val name = "Data Science 부트캠프"
-    val scheduleList = listOf("일정1", "일정2", "일정3")
+fun CalendarScreen(navController: NavHostController, studyId: String) {
+    val viewModel: CalendarViewModel = viewModel()
+    val studyName by viewModel.studyName.collectAsState() // 스터디 이름
+    val scheduleList by viewModel.scheduleList.collectAsState() // 일정 목록
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchStudyById(studyId)
+        viewModel.fetchScheduleList(studyId)
+    }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = name,
+                        text = studyName,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Color.White
@@ -74,17 +88,17 @@ fun CalendarScreen(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .padding(horizontal = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Calendar()  // 캘린더
 
-            Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp))
+            Divider(color = ButtonBackDeep, thickness = 1.dp, modifier = Modifier.padding(top = 20.dp))
 
             LazyColumn( // 일정 목록
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
             ) {
                 items(scheduleList) { schedule ->
                     ScheduleItem(schedule, navController)
