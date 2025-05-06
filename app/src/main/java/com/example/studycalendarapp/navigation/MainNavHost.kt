@@ -20,12 +20,14 @@ fun MainNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screen.Login.route) {
         composable(Screen.Login.route) { LoginScreen(navController) }
         composable(Screen.JoiningStudy.route) { JoiningStudyScreen(navController) }
-//        composable(Screen.Calendar.route) { CalendarScreen(navController) }
         composable("calendar/{studyId}") { backStackEntry ->
             val studyId = backStackEntry.arguments?.getString("studyId") ?: return@composable
             CalendarScreen(navController, studyId)
         }
-        composable(Screen.AddSchedule.route) { AddScheduleScreen(navController) }
+        composable("addSchedule/{studyId}") { backStackEntry ->
+            val studyId = backStackEntry.arguments?.getString("studyId") ?: return@composable
+            AddScheduleScreen(navController, studyId)
+        }
         composable(Screen.AddStudy.route) { AddStudyScreen(navController) }
         composable(Screen.Chating.route) { ChatingScreen(navController) }
         composable(Screen.DetailSchedule.route) { DetailScheduleScreen(navController) }

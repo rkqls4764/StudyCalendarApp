@@ -84,7 +84,7 @@ fun CalendarScreen(navController: NavHostController, studyId: String) {
         floatingActionButton = {
             FloatingActionButton( // 일정 생성 버튼
                 onClick = {
-                    navController.navigate("addSchedule")
+                    navController.navigate("addSchedule/${studyId}")
                 },
                 containerColor = SubBlue,
                 shape = RoundedCornerShape(50)

@@ -1,7 +1,7 @@
 package com.example.studycalendarapp.navigation
 
 enum class Screen(val route: String) {
-    AddSchedule("addSchedule"),
+    AddSchedule("addSchedule/{studyId}"),
     AddStudy("addStudy"),
     Calendar("calendar/{studyId}"),
     Chating("chating"),
