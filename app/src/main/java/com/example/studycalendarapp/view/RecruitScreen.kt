@@ -129,7 +129,7 @@ fun RecruitScreen(navController: NavHostController) {
             ) {
                 items(filteredList) { study ->
                     StudyItem(study, "참여하기", onButtonClick = {
-                        navController.navigate("joinStudy")  // 스터디 참여 화면으로 이동
+                        navController.navigate("joinStudy/${study.id}")  // 스터디 참여 화면으로 이동
                     })
                 }
             }
