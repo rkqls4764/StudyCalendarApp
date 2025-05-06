@@ -33,13 +33,12 @@ class JoiningStudyViewModel : ViewModel() {
                         return@addOnSuccessListener
                     }
 
-                    // Firestore whereIn은 10개 제한 있음
                     DB.collection("study")
-                        .whereIn(FieldPath.documentId(), studyList.take(10))
                         .get()
                         .addOnSuccessListener { result ->
-                            val studies = result.map {
-                                it.toObject(Study::class.java)
+                            val studies = result.map { document ->
+                                val study = document.toObject(Study::class.java)
+                                study.copy(id = document.id) // 문서 ID 추가
                             }
                             _studyList.value = studies
                             Log.d(TAG, "가입한 스터디 목록 불러오기 성공: ${_studyList.value}")
