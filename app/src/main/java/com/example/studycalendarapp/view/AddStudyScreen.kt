@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -139,9 +141,11 @@ fun AddStudyScreen(navController: NavHostController) {
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = SubBlue
-                )
+                ),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp).height(50.dp)
             ) {
-                Text(text = "생성하기", fontWeight = FontWeight.Bold, color = Color.White)
+                Text(text = "생성하기", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
             }
         }
     }

@@ -3,7 +3,10 @@ package com.example.studycalendarapp.view
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -62,20 +65,24 @@ fun JoinStudyScreen(navController: NavHostController) {
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues).fillMaxSize(),
+            modifier = Modifier.padding(paddingValues).fillMaxSize().padding(horizontal = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            DetailStudy()
+            Spacer(modifier = Modifier.padding(bottom = 30.dp))
 
-            Spacer(modifier = Modifier.padding(bottom = 100.dp))
+//            DetailStudy()
+
+            Spacer(modifier = Modifier.padding(bottom = 245.dp))
 
             Button( // 참여 버튼
                 onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = SubBlue
-                )
+                ),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier.fillMaxWidth().height(50.dp)
             ) {
-                Text(text = "참여하기", fontWeight = FontWeight.Bold, color = Color.White)
+                Text(text = "참여하기", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
             }
         }
     }
