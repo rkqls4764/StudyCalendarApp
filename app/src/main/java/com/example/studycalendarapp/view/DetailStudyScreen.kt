@@ -4,8 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -54,7 +58,18 @@ fun DetailStudyScreen(navController: NavHostController, studyId: String) {
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MainBlue
-                )
+                ),
+                navigationIcon = {  // 뒤로 가기 버튼
+                    IconButton(
+                        onClick = { navController.popBackStack() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowLeft,
+                            contentDescription = "뒤로 가기",
+                            tint = Color.White
+                        )
+                    }
+                }
             )
         },
         bottomBar = {
@@ -62,9 +77,9 @@ fun DetailStudyScreen(navController: NavHostController, studyId: String) {
                 navController,
                 onItemClick = { id ->
                     when (id) {
-                        "calendar" -> navController.navigate("calendar/${studyId}")
-                        "chating" -> navController.navigate("chating")
-                        "detailStudy" -> navController.navigate("detailStudy/${studyId}")
+                        "calendar" -> navController.navigate("calendar/${studyId}") { popUpTo(navController.currentDestination?.route ?: return@navigate) { inclusive = true } }
+                        "chating" -> navController.navigate("chating") { popUpTo(navController.currentDestination?.route ?: return@navigate) { inclusive = true } }
+                        "detailStudy" -> navController.navigate("detailStudy/${studyId}") { popUpTo(navController.currentDestination?.route ?: return@navigate) { inclusive = true } }
                     }
                 })
         }

@@ -55,8 +55,8 @@ fun StudyBottomNavigationBar(navController: NavController) {
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
+                        popUpTo(navController.currentDestination?.route ?: return@navigate) {
+                            inclusive = true
                         }
                         launchSingleTop = true
                         restoreState = true

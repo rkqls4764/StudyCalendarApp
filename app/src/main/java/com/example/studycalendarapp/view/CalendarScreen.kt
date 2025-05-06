@@ -71,8 +71,10 @@ fun CalendarScreen(navController: NavHostController, studyId: String) {
                     containerColor = MainBlue
                 ),
                 navigationIcon = {  // 뒤로 가기 버튼
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        androidx.compose.material.Icon(
+                    IconButton(
+                        onClick = { navController.popBackStack() }
+                    ) {
+                        Icon(
                             imageVector = Icons.Default.KeyboardArrowLeft,
                             contentDescription = "뒤로 가기",
                             tint = Color.White
@@ -97,9 +99,9 @@ fun CalendarScreen(navController: NavHostController, studyId: String) {
                 navController,
                 onItemClick = { id ->
                     when (id) {
-                        "calendar" -> navController.navigate("calendar/${studyId}")
-                        "chating" -> navController.navigate("chating")
-                        "detailStudy" -> navController.navigate("detailStudy/${studyId}")
+                        "calendar" -> navController.navigate("calendar/${studyId}") { popUpTo(navController.currentDestination?.route ?: return@navigate) { inclusive = true } }
+                        "chating" -> navController.navigate("chating") { popUpTo(navController.currentDestination?.route ?: return@navigate) { inclusive = true } }
+                        "detailStudy" -> navController.navigate("detailStudy/${studyId}") { popUpTo(navController.currentDestination?.route ?: return@navigate) { inclusive = true } }
                     }
                 })
         }

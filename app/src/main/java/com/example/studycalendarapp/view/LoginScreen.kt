@@ -52,7 +52,11 @@ fun LoginScreen(navController: NavHostController) {
     // 로그인 성공 시 화면 이동
     LaunchedEffect(isLoginSuccess) {
         if (isLoginSuccess) {
-            navController.navigate("joiningStudy")
+            navController.navigate("joiningStudy") {
+                popUpTo(navController.currentDestination?.route ?: return@navigate) {
+                    inclusive = true
+                }
+            }
         }
     }
 
