@@ -16,11 +16,11 @@ class JoiningStudyViewModel : ViewModel() {
     private val DB = FirebaseFirestore.getInstance()
     private val uid = FirebaseAuth.getInstance().currentUser!!.uid
 
-    private val _studyList = MutableStateFlow<List<Study>>(emptyList()) // 스터디 목록
+    private val _studyList = MutableStateFlow<List<Study>>(emptyList()) // 가입 중인 스터디 목록
     val studyList: StateFlow<List<Study>> = _studyList
 
     /* 가입 중인 스터디 목록 조회 함수 */
-    fun fetchStudies() {
+    fun fetchJoiningStudyList() {
         DB.collection("user").document(uid)
             .get()
             .addOnSuccessListener { document ->

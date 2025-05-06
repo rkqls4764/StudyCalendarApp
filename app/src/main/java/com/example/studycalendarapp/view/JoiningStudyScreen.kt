@@ -38,7 +38,7 @@ fun JoiningStudyScreen(navController: NavHostController) {
     val studyList by viewModel.studyList.collectAsState()   // 스터디 목록
 
     LaunchedEffect(Unit) {
-        viewModel.fetchStudies()
+        viewModel.fetchJoiningStudyList()
     }
 
     Scaffold(
