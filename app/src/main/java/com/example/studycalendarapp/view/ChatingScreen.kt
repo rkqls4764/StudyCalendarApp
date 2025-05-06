@@ -21,6 +21,7 @@ import com.example.studycalendarapp.R
 import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.StudyBottomNavigationBar
 
+/* AI 챗봇 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatingScreen(navController: NavHostController) {

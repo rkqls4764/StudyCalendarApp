@@ -31,6 +31,7 @@ import com.example.studycalendarapp.view.components.DetailStudy
 import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.SubBlue
 
+/* 스터디 참여 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JoinStudyScreen(navController: NavHostController) {

@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
 import com.example.studycalendarapp.view.components.MainBlue
 
+/* 일정 조회 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScheduleScreen(navController: NavHostController) {

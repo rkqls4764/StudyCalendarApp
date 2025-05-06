@@ -45,6 +45,7 @@ import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.SubBlue
 import com.example.studycalendarapp.viewmodel.AddStudyViewModel
 
+/* 스터디 생성 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddStudyScreen(navController: NavHostController) {

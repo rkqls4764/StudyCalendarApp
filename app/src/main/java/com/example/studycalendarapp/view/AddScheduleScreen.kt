@@ -34,6 +34,7 @@ import com.example.studycalendarapp.R
 import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.SubBlue
 
+/* 일정 추가 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScheduleScreen(navController: NavHostController) {

@@ -32,6 +32,7 @@ import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.ScheduleItem
 import com.example.studycalendarapp.view.components.SubBlue
 
+/* 일정 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarScreen(navController: NavHostController) {

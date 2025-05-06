@@ -51,6 +51,7 @@ import com.example.studycalendarapp.view.components.SubBlue
 import com.example.studycalendarapp.viewmodel.JoiningStudyViewModel
 import com.example.studycalendarapp.viewmodel.RecruitViewModel
 
+/* 스터디 모집 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecruitScreen(navController: NavHostController) {

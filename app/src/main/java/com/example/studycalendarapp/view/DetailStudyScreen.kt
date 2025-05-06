@@ -22,6 +22,7 @@ import com.example.studycalendarapp.view.components.CalendarBottomNavigationBar
 import com.example.studycalendarapp.view.components.DetailStudy
 import com.example.studycalendarapp.view.components.MainBlue
 
+/* 스터디 정보 화면 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailStudyScreen(navController: NavHostController) {
