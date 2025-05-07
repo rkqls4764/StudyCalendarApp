@@ -113,7 +113,7 @@ fun CalendarScreen(navController: NavHostController, studyId: String) {
                 .padding(horizontal = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Calendar()  // 캘린더
+            Calendar(viewModel)  // 캘린더
 
             Divider(color = ButtonBackDeep, thickness = 1.dp, modifier = Modifier.padding(top = 20.dp))
 

@@ -1,6 +1,9 @@
 package com.example.studycalendarapp.view.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +14,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -26,36 +32,52 @@ import androidx.compose.ui.unit.sp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
+import com.example.studycalendarapp.viewmodel.CalendarViewModel
 
 /* 캘린더 */
 @Composable
-fun Calendar() {
-    val dateTodayState = remember { mutableStateOf(LocalDate.now()) }   // 현재 날짜
-    val selectedDateState = remember { mutableStateOf(LocalDate.now()) }    // 선택한 날짜
+fun Calendar(viewModel: CalendarViewModel) {
+    val dateTodayState = remember { mutableStateOf(LocalDate.now()) } // 현재 날짜
+    val selectedDate by viewModel.selectedDate.collectAsState() //선택한 날짜
+    val selectedDateState = remember { mutableStateOf(selectedDate) } // 선택한 날짜 상태
+
+    LaunchedEffect(selectedDate) {
+        selectedDateState.value = selectedDate
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val startDate = remember { mutableStateOf(selectedDateState.value!!.withDayOfMonth(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"))) }    // 선택한 월의 시작 날짜 ("yyyyMMdd")
-        val endDate = remember { mutableStateOf(selectedDateState.value!!.withDayOfMonth(selectedDateState.value!!.lengthOfMonth()).format(DateTimeFormatter.ofPattern("yyyyMMdd"))) }  // 선택한 월의 마지막 날짜 ("yyyyMMdd")
+        val startDate = remember { mutableStateOf(selectedDate.withDayOfMonth(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"))) }    // 선택한 월의 시작 날짜 ("yyyyMMdd")
+        val endDate = remember { mutableStateOf(selectedDate.withDayOfMonth(selectedDate.lengthOfMonth()).format(DateTimeFormatter.ofPattern("yyyyMMdd"))) }  // 선택한 월의 마지막 날짜 ("yyyyMMdd")
 
         MonthMove(  // 월 이동 버튼
             dateTodayState = dateTodayState,
             onMonthChanged = { newMonth ->
+                // 월 이동 시 이동한 월의 1일을 선택된 날짜로 설정
+                val firstDayOfMonth = newMonth.withDayOfMonth(1)
+                viewModel.updateSelectedDate(firstDayOfMonth)
+
                 startDate.value = newMonth.withDayOfMonth(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"))
                 endDate.value = newMonth.withDayOfMonth(newMonth.lengthOfMonth()).format(DateTimeFormatter.ofPattern("yyyyMMdd"))
             }
         )
-        DayOfWeekBar()  // 요일 출력
-        MonthBlock( // 한 달 출력
-            currentDateState = dateTodayState
-        )
+
+        DayOfWeekBar() // 요일 출력
+
+        MonthBlock(dateTodayState) // 한 달 날짜 출력
     }
 }
 
-/* 캘린더 한 달 출력 */
+/* 한 달 날짜 출력 */
 @Composable
 fun MonthBlock(
     currentDateState: MutableState<LocalDate>   // 현재 날짜
@@ -65,9 +87,7 @@ fun MonthBlock(
     val firstDayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek.value  // 현재 달의 시작 요일
     val days = IntRange(1, lastDay).toList()    // 현재 달의 전체 날짜
 
-    Column(
-        modifier = Modifier
-    ) {
+    Column {
         LazyVerticalGrid(columns = GridCells.Fixed(7)) {
             //처음 날짜 시작 요일까지 빈 박스 생성
             for (i in 0 until firstDayOfWeek) {
@@ -76,13 +96,14 @@ fun MonthBlock(
                 }
             }
 
-            itemsIndexed(days) { index, day ->
+            itemsIndexed(days) { _, day ->
                 val date = currentDate.withDayOfMonth(day)  // currentDate에서 일자를 day로 변경
                 Column {
                     Divider(modifier = Modifier.padding(horizontal = 8.dp))
 
                     Box(
-                        modifier = Modifier,
+                        modifier = Modifier
+                            .padding(10.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         DayBlock(date)
@@ -105,23 +126,19 @@ fun MonthMove(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
             .padding(top = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(
+        IconButton(
             onClick = {
                 val previousMonth = currentMonth.minusMonths(1)
                 val newDate = adjustDayOfMonth(previousMonth, currentMonth.dayOfMonth)
                 dateTodayState.value = newDate
                 onMonthChanged(newDate)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent // 버튼 배경색 제거
-            )
+            }
         ) {
-            Text(text = "<", color = Color.Black, fontSize = 18.sp)
+            Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription = "이전 월 버튼")
         }
 
         Text(
@@ -130,18 +147,15 @@ fun MonthMove(
             textAlign = TextAlign.Center
         )
 
-        Button(
+        IconButton(
             onClick = {
                 val nextMonth = currentMonth.plusMonths(1)
                 val newDate = adjustDayOfMonth(nextMonth, currentMonth.dayOfMonth)
                 dateTodayState.value = newDate
                 onMonthChanged(newDate)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent // 버튼 배경색 제거
-            )
+            }
         ) {
-            Text(text = ">", color = Color.Black, fontSize = 18.sp)
+            Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "다음 월 버튼")
         }
     }
 }
@@ -175,20 +189,15 @@ fun DayOfWeekBar() {
 fun DayBlock(
     date: LocalDate
 ) {
-    Column (
-        modifier = Modifier.padding(10.dp)
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        //날짜 출력
-        Text(
+        Text( //날짜 출력
             text = date.dayOfMonth.toString(),
             fontSize = 15.sp,
-            color = if (date == LocalDate.now()) Color.White else Color.Black, //오늘 날짜는 다른 색상으로 표시
-            modifier = Modifier
-                .background(
-                    color = if (date == LocalDate.now()) Color.Black else Color.Transparent, //오늘 날짜는 다른 색상으로 표시
-                    shape = CircleShape
-                )
-                .padding(3.dp, 1.dp, 3.dp, 1.dp)
+            fontWeight = if (date == LocalDate.now()) FontWeight.Bold else FontWeight.Normal,
+            color = if (date == LocalDate.now()) SubBlue else Color.Black, //오늘 날짜는 다른 색상으로 표시
+            modifier = Modifier.fillMaxWidth().padding(start = 2.dp)
         )
     }
 }
