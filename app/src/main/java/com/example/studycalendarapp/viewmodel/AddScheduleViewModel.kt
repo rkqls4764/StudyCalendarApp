@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 class AddScheduleViewModel : ViewModel() {
     private val TAG = "AddScheduleViewModel"
     private val DB = FirebaseFirestore.getInstance()
-    private val uid = FirebaseAuth.getInstance().currentUser!!.uid
 
     private val _schedule = MutableStateFlow(Schedule())  // 생성할 일정 정보
     val schedule: StateFlow<Schedule> = _schedule

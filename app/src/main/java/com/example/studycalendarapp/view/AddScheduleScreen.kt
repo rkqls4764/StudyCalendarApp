@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
+import com.example.studycalendarapp.view.components.DatePickerField
 import com.example.studycalendarapp.view.components.InputField
 import com.example.studycalendarapp.view.components.MainBlue
 import com.example.studycalendarapp.view.components.SubBlue
@@ -85,12 +86,12 @@ fun AddScheduleScreen(navController: NavHostController, studyId: String) {
                 .padding(top = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            InputField("이름", schedule.name) { new ->
-                viewModel.updateSchedule { it.copy(name = new) }
+            DatePickerField("날짜", schedule.date) { newDate ->
+                viewModel.updateSchedule { it.copy(date = newDate) }
             }
 
-            InputField("날짜", schedule.date) { new ->
-                viewModel.updateSchedule { it.copy(date = new) }
+            InputField("이름", schedule.name) { new ->
+                viewModel.updateSchedule { it.copy(name = new) }
             }
 
             InputField("시간", schedule.time) { new ->
