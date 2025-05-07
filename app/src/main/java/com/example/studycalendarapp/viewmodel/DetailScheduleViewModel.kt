@@ -32,4 +32,17 @@ class DetailScheduleViewModel : ViewModel() {
                 Log.e(TAG, "일정 정보 불러오기 실패: ", e)
             }
     }
+
+    /* 일정 삭제 함수 */
+    fun deleteSchedule(scheduleId: String, onSuccess: () -> Unit) {
+        DB.collection("schedule").document(scheduleId)
+            .delete()
+            .addOnSuccessListener {
+                Log.d("DetailScheduleViewModel", "일정 삭제 성공")
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                Log.e("DetailScheduleViewModel", "일정 삭제 실패", e)
+            }
+    }
 }
