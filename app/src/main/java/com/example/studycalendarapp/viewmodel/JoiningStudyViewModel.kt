@@ -21,6 +21,7 @@ class JoiningStudyViewModel : ViewModel() {
 
     /* 가입 중인 스터디 목록 조회 함수 */
     fun fetchJoiningStudyList() {
+        // user 문서에서 studyList 가져오기
         DB.collection("user").document(uid)
             .get()
             .addOnSuccessListener { document ->
@@ -33,6 +34,7 @@ class JoiningStudyViewModel : ViewModel() {
                         return@addOnSuccessListener
                     }
 
+                    // studyList에 존재하는 스터디로 필터링
                     DB.collection("study")
                         .get()
                         .addOnSuccessListener { result ->

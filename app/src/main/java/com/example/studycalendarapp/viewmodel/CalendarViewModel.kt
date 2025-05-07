@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.studycalendarapp.model.Schedule
 import com.example.studycalendarapp.model.Study
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -69,16 +70,37 @@ class CalendarViewModel : ViewModel() {
 
     /* 일정 목록 조회 함수 */
     fun fetchScheduleList(studyId: String) {
-        DB.collection("study")
-            .document(studyId).collection("schedule")
+        // study 문서에서 scheduleList 가져오기
+        DB.collection("study").document(studyId)
             .get()
-            .addOnSuccessListener { result ->
-                val schedules = result.map { it.toObject(Schedule::class.java) }
-                _allScheduleList.value = schedules
-                Log.d(TAG, "일정 목록 가져오기 성공: ${_allScheduleList.value}")
+            .addOnSuccessListener { studyDoc ->
+                if (studyDoc.exists()) {
+                    val scheduleIdList = studyDoc.get("scheduleList") as? List<String> ?: emptyList()
+
+                    if (scheduleIdList.isEmpty()) {
+                        _allScheduleList.value = emptyList()
+                        Log.d(TAG, "일정 없음")
+                        return@addOnSuccessListener
+                    }
+
+                    // scheduleList에 존재하는 일정으로 필터링
+                    DB.collection("schedule")
+                        .get()
+                        .addOnSuccessListener { result ->
+                            val schedules = result.map { it.toObject(Schedule::class.java) }
+                            _allScheduleList.value = schedules
+                            Log.d(TAG, "일정 목록 가져오기 성공: ${schedules}")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e(TAG, "일정 목록 조회 실패", e)
+                        }
+
+                } else {
+                    Log.e(TAG, "스터디 문서 없음")
+                }
             }
             .addOnFailureListener { e ->
-                Log.e(TAG, "일정 목록 가져오기 실패", e)
+                Log.e(TAG, "스터디 조회 실패", e)
             }
     }
 }

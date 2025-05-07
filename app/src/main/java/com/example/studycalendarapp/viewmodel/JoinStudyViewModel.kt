@@ -43,21 +43,21 @@ class JoinStudyViewModel : ViewModel() {
         // Study 문서의 memberList에 uid 추가
         studyRef.update("memberList", FieldValue.arrayUnion(uid))
             .addOnSuccessListener {
-                Log.d(TAG, "스터디 memberList 업데이트 성공")
+                Log.d(TAG, "스터디 memberList에 사용자 추가 성공")
 
                 // User 문서의 studyList에 studyId 추가
                 userRef.update("studyList", FieldValue.arrayUnion(studyId))
                     .addOnSuccessListener {
-                        Log.d(TAG, "사용자 studyList 업데이트 성공")
+                        Log.d(TAG, "사용자 studyList에 스터디 추가 성공")
                         onSuccess()
                     }
                     .addOnFailureListener { e ->
-                        Log.e(TAG, "사용자 studyList 업데이트 실패", e)
+                        Log.e(TAG, "사용자 studyList에 스터디 추가 실패", e)
                         onFailure()
                     }
             }
             .addOnFailureListener { e ->
-                Log.e(TAG, "스터디 memberList 업데이트 실패", e)
+                Log.e(TAG, "스터디 memberList에 사용자 추가 실패", e)
                 onFailure()
             }
     }

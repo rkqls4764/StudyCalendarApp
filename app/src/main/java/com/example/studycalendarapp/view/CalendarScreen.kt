@@ -123,7 +123,7 @@ fun CalendarScreen(navController: NavHostController, studyId: String) {
             ) {
                 items(scheduleList) { schedule ->
                     ScheduleItem(schedule, onButtonClick = {
-                        navController.navigate("detailStudy/studyId") // 일정 조회 화면으로 이동
+                        navController.navigate("detailSchedule") // 일정 조회 화면으로 이동
                     })
                 }
             }
