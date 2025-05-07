@@ -87,7 +87,10 @@ class CalendarViewModel : ViewModel() {
                     DB.collection("schedule")
                         .get()
                         .addOnSuccessListener { result ->
-                            val schedules = result.map { it.toObject(Schedule::class.java) }
+                            val schedules = result.map { document ->
+                                val schedule = document.toObject(Schedule::class.java)
+                                schedule.copy(id = document.id) // 문서 ID 추가
+                            }
                             _allScheduleList.value = schedules
                             Log.d(TAG, "일정 목록 가져오기 성공: ${schedules}")
                         }
