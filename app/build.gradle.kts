@@ -1,3 +1,9 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+var properties = Properties()
+properties.load(FileInputStream("local.properties"))
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -20,6 +26,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // 읽기 과정 - BuildConfig에 등록
+        buildConfigField("String", "OPENAI_API_KEY", properties.getProperty("OPENAI_API_KEY"))
     }
 
     buildTypes {
@@ -40,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -72,8 +82,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation("androidx.compose.material:material:1.4.3")
-    implementation(platform("com.google.firebase:firebase-bom:32.7.3"))    // Firebase BoM(버전 일괄 관리) 사용
-    implementation("com.google.firebase:firebase-auth-ktx")     // Firebase Authentication(구글 소셜 로그인) 사용
-    implementation("com.google.firebase:firebase-firestore")    // Firestore 사용
-    implementation("com.google.android.gms:play-services-auth:21.0.0")  // 구글 소셜 로그인 사용
+    implementation(platform("com.google.firebase:firebase-bom:32.7.3"))     // Firebase BoM(버전 일괄 관리) 사용
+    implementation("com.google.firebase:firebase-auth-ktx")                 // Firebase Authentication(구글 소셜 로그인) 사용
+    implementation("com.google.firebase:firebase-firestore")                // Firestore 사용
+    implementation("com.google.android.gms:play-services-auth:21.0.0")      // 구글 소셜 로그인 사용
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")                 // 통신을 위해 사용
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
 }
