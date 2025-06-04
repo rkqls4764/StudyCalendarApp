@@ -36,6 +36,7 @@ class JoiningStudyViewModel : ViewModel() {
 
                     // studyList에 존재하는 스터디로 필터링
                     DB.collection("study")
+                        .whereIn(FieldPath.documentId(), studyList)
                         .get()
                         .addOnSuccessListener { result ->
                             val studies = result.map { document ->

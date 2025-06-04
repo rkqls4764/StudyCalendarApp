@@ -85,6 +85,7 @@ class CalendarViewModel : ViewModel() {
 
                     // scheduleList에 존재하는 일정으로 필터링
                     DB.collection("schedule")
+                        .whereIn(FieldPath.documentId(), scheduleIdList)
                         .get()
                         .addOnSuccessListener { result ->
                             val schedules = result.map { document ->
