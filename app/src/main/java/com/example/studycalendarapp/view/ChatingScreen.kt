@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -36,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,8 +46,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.studycalendarapp.R
 import com.example.studycalendarapp.view.components.ButtonBack
+import com.example.studycalendarapp.view.components.ButtonBackDeep
 import com.example.studycalendarapp.view.components.ChatHistory
 import com.example.studycalendarapp.view.components.MainBlue
+import com.example.studycalendarapp.view.components.StartChat
 import com.example.studycalendarapp.view.components.StudyBottomNavigationBar
 import com.example.studycalendarapp.view.components.SubBlue
 import com.example.studycalendarapp.viewmodel.ChatingViewModel
@@ -55,7 +60,9 @@ import com.example.studycalendarapp.viewmodel.ChatingViewModel
 fun ChatingScreen(navController: NavHostController) {
     val viewModel: ChatingViewModel = viewModel()
     val chatHistory by viewModel.chatHistory.collectAsState() // 채팅 내역
+    val isInputEnabled by viewModel.isInputEnabled.collectAsState() // 입력 가능 여부
     var inputText by remember { mutableStateOf("") }    // 입력 내용
+    var selectedFunction by remember { mutableStateOf("") } // 선택한 챗봇 기능
     
     Scaffold(
         topBar = {
@@ -85,16 +92,26 @@ fun ChatingScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
+            StartChat(
+                onRecommendStudyClick = {
+                    viewModel.addAIMessage("관심사를 입력해주세요.")
+                    selectedFunction = "study"
+                }
+            )
+
             ChatHistory(Modifier.weight(1f), chatHistory)
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 22.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 22.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TextField(
                     value = inputText,
+                    enabled = isInputEnabled,
                     onValueChange = { inputText = it },
-                    placeholder = { Text(text = "메세지를 작성하세요") },
+                    placeholder = { Text(text = if (isInputEnabled) "메세지를 작성해주세요" else "기능을 선택해주세요") },
                     shape = RoundedCornerShape(12.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = ButtonBack,
@@ -109,9 +126,14 @@ fun ChatingScreen(navController: NavHostController) {
 
                 IconButton(
                     onClick = {
-                        viewModel.sendMessage(inputText)
+                        if (selectedFunction == "study") {
+                            viewModel.recommendStudy(inputText)
+                        }
+
+                        selectedFunction = ""
                         inputText = ""
                     },
+                    enabled = isInputEnabled,
                     modifier = Modifier.background(
                         color = SubBlue,
                         shape = RoundedCornerShape(10.dp)
