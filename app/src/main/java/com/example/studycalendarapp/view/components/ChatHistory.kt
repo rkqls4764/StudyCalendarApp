@@ -33,7 +33,7 @@ fun ChatHistory(
     onRecommendLearningClick: () -> Unit
 ) {
     LazyColumn(
-        modifier = modifier.padding(top = 22.dp)
+        modifier = modifier.padding(vertical = 22.dp)
     ) {
         items(chatHistory) { message ->
             when (message.role) {

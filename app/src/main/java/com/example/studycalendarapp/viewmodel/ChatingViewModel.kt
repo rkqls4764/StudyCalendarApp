@@ -77,7 +77,7 @@ class ChatingViewModel : ViewModel() {
         val systemPrompt = """
                     너는 사용자의 관심사에 맞는 스터디를 추천하는 챗봇이다.
                     스터디 목록은 id, name, tag를 가진다.
-                    가벼운 코멘트도 포함한다. (스터디에는 제외)
+                    짧은 코멘트도 포함한다. (스터디에는 제외)
                     스터디는 '{번호}. {이름} ({태그})' 형식 출력한다.
                     추천 가능한 스터디 목록:
                 """.trimIndent()
@@ -164,12 +164,16 @@ class ChatingViewModel : ViewModel() {
             }
 
         val systemPrompt = """
-                    너는 사용자가 진행한 일정을 기반으로 다음 학습 내용을 추천하는 챗봇이다.
-                    일정 목록은 id, name, description을 가진다.
-                    가벼운 코멘트도 포함한다.
-                    마지막은 추천한 학습 내용을 '[추천 일정]\n'에 일정 형식(-{name}: {description})으로 끝난다.
-                    진행한 일정 목록:
-                """.trimIndent()
+    너는 사용자의 일정 기록과 입력한 학습 주제를 바탕으로 다음 학습 내용을 추천하는 친절한 챗봇이다.
+
+    조건:
+    - 추천 이유를 1~2문장으로 설명
+    - 마지막에 '[추천 일정]\n' 출력하고 아래 형식으로 학습 내용 정리:  
+      - 이름: 설명
+
+    진행한 일정 목록은 '- id, 이름, 설명' 형식으로 제공된다.  
+    이 목록과 입력 주제를 기반으로 적절한 다음 학습 내용을 추천하라.
+""".trimIndent()
 
         val messages = listOf(
             Message("system", "$systemPrompt\n$targetScheduleText"),
