@@ -33,7 +33,7 @@ import com.example.studycalendarapp.R
 import com.example.studycalendarapp.viewmodel.ChatingViewModel
 
 @Composable
-fun StartChat(onRecommendStudyClick: () -> Unit) {
+fun StartChat(onRecommendStudyClick: () -> Unit, onRecommendLearningClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -81,7 +81,7 @@ fun StartChat(onRecommendStudyClick: () -> Unit) {
                         .padding(horizontal = 14.dp)
                         .padding(bottom = 12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = SubBlue),
-                    onClick = { /*TODO*/ }
+                    onClick = { onRecommendLearningClick() }
                 ) {
                     Text(text = "학습 내용 추천 받기", fontSize = 14.sp, color = Color.Black, textAlign = TextAlign.Center)
                 }

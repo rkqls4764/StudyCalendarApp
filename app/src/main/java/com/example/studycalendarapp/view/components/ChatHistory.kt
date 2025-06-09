@@ -26,40 +26,55 @@ import com.example.studycalendarapp.R
 import com.example.studycalendarapp.model.Message
 
 @Composable
-fun ChatHistory(modifier: Modifier = Modifier, chatHistory: List<Message>) {
+fun ChatHistory(
+    modifier: Modifier = Modifier,
+    chatHistory: List<Message>,
+    onRecommendStudyClick: () -> Unit,
+    onRecommendLearningClick: () -> Unit
+) {
     LazyColumn(
         modifier = modifier.padding(top = 22.dp)
     ) {
         items(chatHistory) { message ->
-            val isUser = message.role == "user"
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (!isUser) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.img_ai_profile),
-                        contentDescription = "AI 프로필",
-                        modifier = Modifier.padding(end = 8.dp).size(26.dp)
+            when (message.role) {
+                "startchat" -> {
+                    StartChat(
+                        onRecommendStudyClick = onRecommendStudyClick,
+                        onRecommendLearningClick = onRecommendLearningClick
                     )
                 }
 
-                Surface(
-                    shape = RoundedCornerShape(12.dp),
-                    color = if (isUser) ButtonBackDeep else ButtonBack,
-                    tonalElevation = 2.dp
-                ) {
-                    Text(
-                        text = message.content,
+                else -> {
+                    val isUser = message.role == "user"
+                    Row(
                         modifier = Modifier
-                            .padding(12.dp)
-                            .widthIn(max = 240.dp),
-                        color = Color.Black
-                    )
+                            .fillMaxWidth()
+                            .padding(top = 12.dp),
+                        horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (!isUser) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.img_ai_profile),
+                                contentDescription = "AI 프로필",
+                                modifier = Modifier.padding(end = 8.dp).size(26.dp)
+                            )
+                        }
+
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = if (isUser) ButtonBackDeep else ButtonBack,
+                            tonalElevation = 2.dp
+                        ) {
+                            Text(
+                                text = message.content,
+                                modifier = Modifier
+                                    .padding(12.dp)
+                                    .widthIn(max = 240.dp),
+                                color = Color.Black
+                            )
+                        }
+                    }
                 }
             }
         }

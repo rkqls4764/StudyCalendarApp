@@ -61,6 +61,7 @@ fun ChatingScreen(navController: NavHostController) {
     val viewModel: ChatingViewModel = viewModel()
     val chatHistory by viewModel.chatHistory.collectAsState() // 채팅 내역
     val isInputEnabled by viewModel.isInputEnabled.collectAsState() // 입력 가능 여부
+    
     var inputText by remember { mutableStateOf("") }    // 입력 내용
     var selectedFunction by remember { mutableStateOf("") } // 선택한 챗봇 기능
     
@@ -92,14 +93,18 @@ fun ChatingScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            StartChat(
+            ChatHistory(
+                Modifier.weight(1f),
+                chatHistory,
                 onRecommendStudyClick = {
                     viewModel.addAIMessage("관심사를 입력해주세요.")
                     selectedFunction = "study"
+                },
+                onRecommendLearningClick = {
+                    viewModel.addAIMessage("추천 받을 학습 주제를 입력해주세요.")
+                    selectedFunction = "learning"
                 }
             )
-
-            ChatHistory(Modifier.weight(1f), chatHistory)
 
             Row(
                 modifier = Modifier
@@ -128,6 +133,9 @@ fun ChatingScreen(navController: NavHostController) {
                     onClick = {
                         if (selectedFunction == "study") {
                             viewModel.recommendStudy(inputText)
+                        }
+                        else if (selectedFunction == "learning") {
+                            viewModel.recommendLearningContent(inputText)
                         }
 
                         selectedFunction = ""
